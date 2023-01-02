@@ -36,7 +36,7 @@
     "@types/react-dom": "18.0.9",
     "@types/react-gtm-module": "^2.0.1",
     "autoprefixer": "^10.4.8",
-    "eslint": "8.27.0",
+    "eslint": "8.31.0",
     "eslint-config-next": "13.0.3",
     "ngrok": "^4.3.3",
     "postcss": "^8.4.16",
