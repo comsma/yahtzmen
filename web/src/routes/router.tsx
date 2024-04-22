@@ -1,10 +1,12 @@
-import { Route, Routes } from 'react-router-dom'
-import HomePage from '../pages'
+import { BrowserRouter } from 'react-router-dom'
+import { AdminRoutes } from './admin.tsx'
+import { StoreRoutes } from './store.tsx'
 
-export default function Router() {
+export function Router() {
     return (
-        <Routes>
-            <Route path={'/'} element={<HomePage />} />
-        </Routes>
+        <BrowserRouter>
+            <StoreRoutes />
+            <AdminRoutes />
+        </BrowserRouter>
     )
 }

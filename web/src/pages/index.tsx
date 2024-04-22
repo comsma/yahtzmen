@@ -9,7 +9,6 @@ interface productI {
     price: number
 }
 
-const fetchProducts(): Promise<>
 export default function HomePage() {
     const { data } = useQuery({
         queryKey: ['products'],

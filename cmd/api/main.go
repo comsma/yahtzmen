@@ -1,35 +1,44 @@
-package api
+package main
 
 import (
 	"database/sql"
+	"fmt"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/labstack/echo/v4"
 	"yahtzmen/internal/data"
+	"yahtzmen/internal/storage"
 )
 
 type Application struct {
-	Models data.Models
+	Models  data.Models
+	Storage storage.Storage
 }
 
 func main() {
-	sess := session.Must(
-		session.NewSession(
-			&aws.Config{
-				Credentials: credentials.NewCredentials(),
-			},
-		),
-	)
 	db, err := sql.Open(
 		"mysql",
-		"postgres://postgres:password@localhost/yahtzmen?sslmode=disable",
+		"root:password@tcp(localhost:3306)/yahtzmen",
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	strg := storage.NewS3Storage(
+		"nyc3.digitaloceanspaces.com",
+		"DO00Y3PVJHFAF2VNJTTD",
+		"Mq6E9YAJmSGhO+ecQnmEt61UbLAqKQwV2AUDxfdnvaI",
 	)
 
 	app := Application{
 		Models: data.NewModels(
 			db,
-			sess,
 		),
+		Storage: strg,
 	}
+
+	e := echo.New()
+	app.routes(e)
+
+	fmt.Println(e.Start(":8088"))
 }

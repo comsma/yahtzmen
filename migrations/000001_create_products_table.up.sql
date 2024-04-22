@@ -1,7 +1,12 @@
-CREATE TABLE products (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    features JSONB NOT NULL,
-    price DECIMAL(10, 2) NOT NULL
+create table products
+(
+    id          varchar(20)    not null
+        primary key,
+    name        varchar(255)   not null,
+    description text           ,
+    notes      text           ,
+    features    text           ,
+    dimensions text           ,
+    CreatedAt   timestamp      not null DEFAULT CURRENT_TIMESTAMP,
+    price       decimal(10, 2) not null
 );
