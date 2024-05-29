@@ -43,7 +43,7 @@ func (m ProductModel) Create(name, description, notes, dimensions, features stri
 
 func (m ProductModel) Insert(product *Product) error {
 	query := `
-		INSERT INTO products (id, name, price, description, notes, dimensions, features)
+		INSERT INTO products.ts (id, name, price, description, notes, dimensions, features)
 		VALUES (?,?,?,?,?,?,?)`
 	args := []any{
 		product.Id,
@@ -72,7 +72,7 @@ func (m ProductModel) Insert(product *Product) error {
 
 func (m ProductModel) Delete(product *Product) error {
 	query := `
-		DELETE FROM products
+		DELETE FROM products.ts
 		WHERE id = ?`
 	args := []any{product.Id}
 	ctx, cancel := context.WithTimeout(
@@ -94,7 +94,7 @@ func (m ProductModel) Delete(product *Product) error {
 func (m ProductModel) Get(id string) (*Product, error) {
 	query := `
 		SELECT id, name, price, description, notes, dimensions, features
-		FROM products
+		FROM products.ts
 		WHERE id = ?`
 	args := []any{id}
 	ctx, cancel := context.WithTimeout(
@@ -125,7 +125,7 @@ func (m ProductModel) Get(id string) (*Product, error) {
 func (m ProductModel) GetAll() ([]*Product, error) {
 	query := `
 		SELECT id, name, price, description, notes, dimensions, features
-		FROM products`
+		FROM products.ts`
 	ctx, cancel := context.WithTimeout(
 		context.Background(),
 		3*time.Second,

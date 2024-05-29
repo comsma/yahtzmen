@@ -8,5 +8,6 @@ create table products
     features    text           ,
     dimensions text           ,
     CreatedAt   timestamp      not null DEFAULT CURRENT_TIMESTAMP,
-    price       decimal(10, 2) not null
+    price       decimal(10, 2) not null,
+    isLive boolean not null default false
 );

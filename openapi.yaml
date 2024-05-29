@@ -1,0 +1,468 @@
+openapi: 3.0.0
+info:
+  title: Yahtzmen Store
+  version: 1.0.0
+paths:
+  /admin/product:
+    get:
+      summary: Get all products
+      operationId: adminGetProducts
+      responses:
+        '200':
+          description: A list of products.ts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminProductPreview'
+        default:
+          description: Unexpected error
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new product
+      operationId: adminCreateProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewAdminProduct'
+      responses:
+        '201':
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseProduct'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /admin/product/{id}:
+    get:
+      summary: Get a product by ID
+      operationId: adminGetProductById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+              type: string
+      responses:
+        '200':
+          description: A product
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/AdminProduct'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Error'
+    delete:
+      summary: Delete a product
+      operationId: adminDeleteProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+              type: string
+      responses:
+        '200':
+          description: Product deleted
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /admin/product/{id}/image:
+    get:
+      summary: Get all images for a product
+      operationId: adminGetProductImages
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+            type: string
+      responses:
+        '200':
+          description: A list of images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductImage'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /checkout/session:
+    post:
+      summary: Create a checkout session
+      operationId: createCheckoutSession
+      tags:
+        - checkout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      responses:
+        '200':
+          description: Payment intent created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutSession'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /admin/products/{id}/image:
+    post:
+      summary: Upload product image
+      operationId: uploadProductImage
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Image uploaded
+  /products:
+    get:
+      summary: Get all products
+      operationId: getProducts
+      responses:
+        '200':
+          description: A list of products.ts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductWithImage'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new product
+      operationId: createProduct
+      requestBody:
+          required: true
+          content:
+            application/json:
+                schema:
+                  $ref: '#/components/schemas/NewProduct'
+      responses:
+        '201':
+          description: Product created
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/Product'
+        default:
+          description: Unexpected error
+          content:
+              application/json:
+                schema:
+                    $ref: '#/components/schemas/Error'
+  /store/products:
+    get:
+      summary: Get all store products
+      operationId: listStoreProducts
+      responses:
+        '200':
+          description: A list of store products
+          content:
+            application/json:
+                schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StoreProductPreview'
+        default:
+            description: Unexpected error
+            content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/Error'
+  /store/products/{id}:
+    get:
+      summary: Get store product by ID
+      operationId: getStoreProductById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+              type: string
+      responses:
+          '200':
+            description: A product
+            content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/StoreProduct'
+          default:
+            description: Unexpected error
+            content:
+                application/json:
+                  schema:
+                      $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+          code:
+            type: integer
+          message:
+            type: string
+    CheckoutSession:
+      type: object
+      properties:
+        clientSecret:
+          type: string
+    Cart:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+    NewAdminProduct:
+      required:
+        - name
+        - price
+        - description
+        - features
+        - notes
+        - dimensions
+        - isLive
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+          x-go-type: float32
+        description:
+          type: string
+        features:
+          type: string
+        notes:
+          type: string
+        dimensions:
+          type: string
+        isLive:
+          type: boolean
+    AdminProductPreview:
+      required:
+        - image_url
+        - id
+        - name
+        - price
+        - isLive
+      type: object
+      properties:
+        image_url:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          x-go-type: float32
+        isLive:
+          type: boolean
+    AdminProduct:
+        required:
+          - id
+          - name
+          - price
+          - description
+          - features
+          - notes
+          - dimensions
+          - isLive
+          - createdAt
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          price:
+            type: number
+            x-go-type: float32
+          description:
+            type: string
+          features:
+            type: string
+          notes:
+            type: string
+          dimensions:
+            type: string
+          isLive:
+            type: boolean
+          createdAt:
+            type: string
+    BaseProduct:
+      required:
+          - id
+          - name
+          - price
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          x-go-type: float32
+    CartItem:
+      required:
+        - id
+        - quantity
+      type: object
+      properties:
+        id:
+          type: string
+        quantity:
+          type: integer
+    ProductImage:
+      required:
+        - id
+        - url
+        - order
+      type: object
+      properties:
+          id:
+            type: string
+          url:
+            type: string
+          order:
+            type: integer
+    StoreProductPreview:
+      required:
+        - id
+        - name
+        - price
+        - image
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+          x-go-type: float32
+        image:
+          $ref: '#/components/schemas/ProductImage'
+    StoreProduct:
+      required:
+        - images
+      type: object
+      properties:
+          id:
+              type: string
+          name:
+              type: string
+          price:
+              type: number
+              x-go-type: float32
+          description:
+              type: string
+          features:
+              type: string
+          notes:
+              type: string
+          dimensions:
+              type: string
+          images:
+            type: array
+            items:
+              $ref: '#/components/schemas/ProductImage'
+    NewProduct:
+      type: object
+      required:
+        - name
+        - description
+        - price
+        - features
+        - notes
+        - dimensions
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          x-go-type: float64
+        features:
+          type: string
+        notes:
+          type: string
+        dimensions:
+          type: string
+
+    ProductWithImage:
+      allOf:
+        - $ref: '#/components/schemas/Product'
+        - type: object
+          properties:
+            primaryImage:
+              type: object
+              properties:
+                id:
+                  type: string
+                url:
+                  type: string
+    Product:
+      type: object
+      properties:
+          id:
+            type: string
+          name:
+            type: string
+          price:
+            type: number
+            x-go-type: float64
+          description:
+            type: string

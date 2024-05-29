@@ -12,3 +12,12 @@ db/migrations/down:
 dev/dependencies/up:
 	podman kube play deployment/dev/database.yml
 
+dev/tls:
+	go run /opt/homebrew/opt/go/libexec/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost
+
+gen/api:
+	@echo "Generating API..."
+	go generate ./...
+	openapi-typescript ./openapi.yaml -o ./web/src/api/schema.d.ts
+
+
