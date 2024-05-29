@@ -1,6 +1,0 @@
-dsn: "root:password@tcp(localhost:3306)/yahtzmen"
-environment: "development"
-storage:
-  endpoint: "nyc3.digitaloceanspaces.com"
-  access_key: "DO008JP23Z7XRUTQKD4L"
-  secret_key: "9+HWuAjEbZFynGULdMCa/Zodszg0IYBUEGo3/zjmiiI"
