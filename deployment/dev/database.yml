@@ -14,7 +14,7 @@ spec:
             value: password
         ports:
         - containerPort: 3306
-          hostPort: 3306
+          hostPort: 3307
   selector:
     matchLabels:
       app: yahtzmen-dev

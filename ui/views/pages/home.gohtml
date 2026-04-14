@@ -1,0 +1,92 @@
+{{ template "layout" . }}
+
+{{ define "title" }}Yahtzmen{{ end }}
+
+{{ define "content" }}
+  <div class="z-0 py-10">
+    <div class="mx-auto max-w-5xl px-5 lg:px-0">
+      {{/* Hero 1 */}}
+      <div class="overflow-hidden rounded-lg">
+        <div class="relative hidden aspect-[16/9] sm:flex">
+          <img
+            src="/static/images/home/1.webp"
+            alt="Thoughtfully Designed, Bespoke Furnishings for Modern Living."
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <div class="visible relative aspect-[11/16] sm:hidden">
+          <img
+            src="/static/images/home/1m.webp"
+            alt="Thoughtfully Designed, Bespoke Furnishings for Modern Living."
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+
+      {{/* Hero 2 */}}
+      <div class="my-10 overflow-hidden rounded-lg">
+        <div class="relative hidden aspect-[16/9] sm:flex">
+          <img
+            src="/static/images/home/2.webp"
+            alt="Thoughtfully Designed, Bespoke Furnishings for Modern Living."
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <div class="visible relative aspect-[11/16] sm:hidden">
+          <img
+            src="/static/images/home/2m.webp"
+            alt="Thoughtfully Designed, Bespoke Furnishings for Modern Living."
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+
+      {{/* Product grid */}}
+      <div class="overflow-hidden rounded-lg">
+        {{ template "product-grid" . }}
+      </div>
+
+      {{/* Our Mission */}}
+      <div class="my-10 overflow-hidden rounded-lg" id="mission">
+        <div class="relative hidden aspect-[16/9] sm:block">
+          <img
+            src="/static/images/home/our-mission.webp"
+            alt="Our Mission"
+            class="h-full w-full object-cover"
+          />
+        </div>
+        <div class="visible relative aspect-[11/16] sm:hidden">
+          <img
+            src="/static/images/home/our-mission-mobile.webp"
+            alt="Our Mission"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+
+      {{/* Let's Collaborate */}}
+      <div class="mt-10 overflow-hidden rounded-lg">
+        <a
+          href="mailto:info@yahtzmen.com"
+          id="collaborate"
+          class="block hover:cursor-pointer hover:opacity-75"
+        >
+          <div class="relative hidden aspect-[16/9] sm:block">
+            <img
+              src="/static/images/home/lets-collaborate.webp"
+              alt="Let's Collaborate"
+              class="h-full w-full object-cover"
+            />
+          </div>
+          <div class="visible relative aspect-[8/16] sm:hidden">
+            <img
+              src="/static/images/home/lets-collaborate-mobile.webp"
+              alt="Let's Collaborate"
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+{{ end }}

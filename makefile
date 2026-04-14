@@ -1,23 +1,39 @@
-## dev/migrations/new name=$1: create a new database migration
+## db/init: create database and run all migrations via yahtzmen init
+db/init:
+	go run ./cmd/yahtzmen init
+
+## db/migrations/new name=<name>: create a new goose migration file
 db/migrations/new:
 	@echo "Creating migration files for ${name}..."
-	migrate create -seq -ext=.sql -dir=./migrations ${name}
-db/migrations/up:
-	@echo "Running up migrations..."
-	migrate -path ./migrations -database "${DB_DSN}" up
-db/migrations/down:
-	@echo "Running up migrations..."
-	migrate -path ./migrations -database "${DB_DSN}" down
+	goose -dir ./migrations create ${name} sql
 
 dev/dependencies/up:
 	podman kube play deployment/dev/database.yml
 
-dev/tls:
-	go run /opt/homebrew/opt/go/libexec/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost
+dev/dependencies/down:
+	podman kube down deployment/dev/database.yml
 
-gen/api:
-	@echo "Generating API..."
-	go generate ./...
-	openapi-typescript ./openapi.yaml -o ./web/src/api/schema.d.ts
+db/seed:
+	go run ./cmd/yahtzmen seed
 
+dev/run:
+	go run ./cmd/yahtzmen serve
 
+## test: run all tests with Podman as the container provider
+test:
+	DOCKER_HOST=unix://$$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}') \
+	TESTCONTAINERS_RYUK_DISABLED=true \
+	go test ./... -v -timeout 120s
+
+test/web:
+	DOCKER_HOST=unix://$$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}') \
+	TESTCONTAINERS_RYUK_DISABLED=true \
+	go test ./internal/web/... -v -timeout 120s
+
+## sqlc/generate: regenerate models from queries
+sqlc/generate:
+	sqlc generate
+
+## build: build the yahtzmen binary
+build:
+	go build -o bin/yahtzmen ./cmd/yahtzmen

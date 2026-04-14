@@ -1,0 +1,36 @@
+{{ template "admin" . }}
+
+{{ define "title" }}Upload Images — Admin{{ end }}
+
+{{ define "admin-header" }}
+  <h1>Upload Images — {{ .ProductID }}</h1>
+  <a href="/admin/products">Back to Products</a>
+{{ end }}
+
+{{ define "admin-content" }}
+  <form
+    action="/admin/products/{{ .ProductID }}/images"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    <label for="images">Select images</label>
+    <input
+      type="file"
+      id="images"
+      name="images"
+      accept="image/*"
+      multiple
+      required
+    />
+    <button type="submit">Upload</button>
+  </form>
+
+  {{ if .Uploaded }}
+    <section>
+      <h2>Uploaded</h2>
+      {{ range .Images }}
+        <img src="{{ . }}" alt="" />
+      {{ end }}
+    </section>
+  {{ end }}
+{{ end }}

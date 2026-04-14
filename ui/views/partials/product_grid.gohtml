@@ -1,0 +1,26 @@
+{{ define "product-grid" }}
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {{ range .Products }}
+      <a
+        href="/products/{{ .ID }}"
+        class="group overflow-hidden rounded-lg bg-white shadow transition hover:shadow-lg"
+      >
+        {{ if .Image }}
+          <div class="relative aspect-square overflow-hidden">
+            <img
+              src="{{ .Image }}"
+              alt="{{ .Name }}"
+              class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            />
+          </div>
+        {{ end }}
+        <div class="p-4">
+          <h3 class="text-lg font-semibold text-gray-900">{{ .Name }}</h3>
+          <p class="mt-1 text-gray-600">${{ .Price }}</p>
+        </div>
+      </a>
+    {{ else }}
+      <p class="col-span-full text-center text-gray-300">No products yet.</p>
+    {{ end }}
+  </div>
+{{ end }}

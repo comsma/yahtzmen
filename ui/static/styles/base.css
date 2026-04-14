@@ -1,0 +1,34 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+    themes: yahtzmen --default;
+}
+
+@plugin "daisyui/theme" {
+    name: "yahtzmen";
+    default: true;
+
+    --color-base-100: hsl(178 10% 90%);
+    --color-base-200: hsl(178 10% 80%);
+    --color-base-300: hsl(178 10% 70%);
+    --color-base-content: hsl(178 30% 10%);
+
+    --color-primary: hsl(42 80% 68%);
+    --color-primary-content: hsl(220 30% 95%);
+
+    --color-secondary: hsl(220 65% 10%);
+    --color-secondary-content: hsl(178 10% 10%);
+
+    --color-neutral: hsl(178 30% 20%);
+    --color-neutral-content: hsl(178 10% 95%);
+
+    --color-accent: hsl(178 40% 40%);
+    --color-accent-content: hsl(178 10% 95%);
+
+    --radius-selector: 0.5rem;
+    --radius-field: 0.25rem;
+    --radius-box: 0.5rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
+

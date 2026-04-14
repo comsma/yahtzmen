@@ -1,0 +1,11 @@
+{{ template "layout" . }}
+
+{{ define "title" }}Server Error{{ end }}
+
+{{ define "content" }}
+  <div class="flex min-h-[80vh] flex-col items-center justify-center text-white">
+    <h1 class="text-6xl font-bold">500</h1>
+    <p class="mt-4 text-xl">Something went wrong.</p>
+    <a href="/" class="mt-8 underline">Go home</a>
+  </div>
+{{ end }}

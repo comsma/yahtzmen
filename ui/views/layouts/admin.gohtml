@@ -1,0 +1,29 @@
+{{ define "admin" }}
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>{{ block "title" . }}Admin — Yahtzmen{{ end }}</title>
+      {{ block "head" . }}{{ end }}
+    </head>
+    <body>
+      <div class="admin-shell">
+        {{ template "admin-sidebar" . }}
+
+
+        <div class="admin-main">
+          <header class="admin-header">
+            {{ block "admin-header" . }}{{ end }}
+          </header>
+
+          <main class="admin-content">
+            {{ block "admin-content" . }}{{ end }}
+          </main>
+        </div>
+      </div>
+
+      {{ block "scripts" . }}{{ end }}
+    </body>
+  </html>
+{{ end }}

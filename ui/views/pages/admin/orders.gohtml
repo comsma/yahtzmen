@@ -1,0 +1,32 @@
+{{ template "admin" . }}
+
+{{ define "title" }}Orders — Admin{{ end }}
+
+{{ define "admin-header" }}
+  <h1>Orders</h1>
+{{ end }}
+
+{{ define "admin-content" }}
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range .Orders }}
+        <tr>
+          <td>{{ .ID }}</td>
+          <td>{{ .Customer.Name }}</td>
+          <td>{{ .Total }}</td>
+          <td>{{ .Status }}</td>
+          <td>{{ .CreatedAt }}</td>
+        </tr>
+      {{ end }}
+    </tbody>
+  </table>
+{{ end }}
